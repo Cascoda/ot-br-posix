@@ -43,27 +43,27 @@ main()
 
     sleep 2
     if [[ "${WITH_MDNS}" = 'mDNSResponder' ]]; then
-        dns_sd_check SingleService _meshcop._udp 'nn=cool xp=1122334455667788'
+        dns_sd_check SingleService _meshcop._udp 'nn=cool xp=ABCDEFGH'
     else
-        avahi_check 'SingleService;_meshcop._udp;.\+"xp=1122334455667788.\+"nn=cool"'
+        avahi_check 'SingleService;_meshcop._udp;.\+"xp=ABCDEFGH.\+"nn=cool"'
     fi
 
     # stop service
     /bin/kill -USR1 $PID
     sleep 1
     if [[ "${WITH_MDNS}" = 'mDNSResponder' ]]; then
-        ! dns_sd_check SingleService _meshcop._udp 'nn=cool xp=1122334455667788'
+        ! dns_sd_check SingleService _meshcop._udp 'nn=cool xp=ABCDEFGH'
     else
-        ! avahi_check 'SingleService;_meshcop._udp;.\+"xp=1122334455667788.\+"nn=cool"'
+        ! avahi_check 'SingleService;_meshcop._udp;.\+"xp=ABCDEFGH.\+"nn=cool"'
     fi
 
     # start service
     /bin/kill -USR2 $PID
     sleep 1
     if [[ "${WITH_MDNS}" = 'mDNSResponder' ]]; then
-        dns_sd_check SingleService _meshcop._udp 'nn=cool xp=1122334455667788'
+        dns_sd_check SingleService _meshcop._udp 'nn=cool xp=ABCDEFGH'
     else
-        avahi_check 'SingleService;_meshcop._udp;.\+"xp=1122334455667788.\+"nn=cool"'
+        avahi_check 'SingleService;_meshcop._udp;.\+"xp=ABCDEFGH.\+"nn=cool"'
     fi
 }
 
