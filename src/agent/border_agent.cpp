@@ -101,6 +101,8 @@ void BorderAgent::Init(void)
     mThreadVersion       = 0;
 
 #if OTBR_ENABLE_NCP_WPANTUND
+    //Wpantund is legacy, set version to Thread 1.1
+    mThreadVersion = kThreadVersion11;
     mNcp->On(Ncp::kEventUdpForwardStream, SendToCommissioner, this);
 #endif
 #if OTBR_ENABLE_MDNS_AVAHI || OTBR_ENABLE_MDNS_MDNSSD || OTBR_ENABLE_MDNS_MOJO
