@@ -244,13 +244,8 @@
                 .cancel('Cancel');
 
             $mdDialog.show(confirm).then(function() {
-                if ($scope.thread.defaultRoute == null) {
-                    $scope.thread.defaultRoute = false;
-                };
                 var data = {
                     networkKey: $scope.thread.networkKey,
-                    prefix: $scope.thread.prefix,
-                    defaultRoute: $scope.thread.defaultRoute,
                     extPanId: $scope.thread.extPanId,
                     panId: $scope.thread.panId,
                     passphrase: $scope.thread.passphrase,

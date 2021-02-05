@@ -149,13 +149,11 @@ std::string WpanService::HandleFormNetworkRequest(const std::string &aFormReques
     pskcStr[OT_PSKC_MAX_LENGTH * 2] = '\0'; // for manipulating with strlen
     VerifyOrExit(reader.parse(aFormRequest.c_str(), root) == true, ret = kWpanStatus_ParseRequestFailed);
     networkKey   = root["networkKey"].asString();
-    prefix       = root["prefix"].asString();
     channel      = root["channel"].asUInt();
     networkName  = root["networkName"].asString();
     passphrase   = root["passphrase"].asString();
     panId        = root["panId"].asString();
     extPanId     = root["extPanId"].asString();
-    defaultRoute = root["defaultRoute"].asBool();
 
     otbr::Utils::Hex2Bytes(extPanId.c_str(), extPanIdBytes, OT_EXTENDED_PANID_LENGTH);
     otbr::Utils::Bytes2Hex(psk.ComputePskc(extPanIdBytes, networkName.c_str(), passphrase.c_str()), OT_PSKC_MAX_LENGTH,
@@ -182,9 +180,6 @@ std::string WpanService::HandleFormNetworkRequest(const std::string &aFormReques
 
     VerifyOrExit(wpanController.Form(networkName.c_str(), channel) == otbr::Dbus::kWpantundStatus_Ok,
                  ret = otbr::Dbus::kWpantundStatus_FormFailed);
-
-    VerifyOrExit(wpanController.AddGateway(prefix.c_str(), defaultRoute) == otbr::Dbus::kWpantundStatus_Ok,
-                 ret = otbr::Dbus::kWpantundStatus_SetGatewayFailed);
 #else  // OTBR_ENABLE_NCP_WPANTUND
     if (prefix.find('/') == std::string::npos)
     {
