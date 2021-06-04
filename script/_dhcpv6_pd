@@ -273,6 +273,11 @@ if [ \${STATE} = "associated" ]; then
         sudo systemctl reload-daemon
         sudo systemctl force-reload dhcpcd
     fi
+
+    if systemctl is-active otbr-agent; then
+        logger -t "\${NAME}[\${PID}]" "otbr-agent: restart"
+        sudo systemctl restart otbr-agent.service
+    fi
 fi
 EOF
 }
