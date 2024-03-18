@@ -6,8 +6,6 @@ PROG=/usr/sbin/smcrouted
 
 start_service() {
 	sleep 4
-	ifconfig eth0 promisc
-	ifconfig wpan0 promisc
 	/lib/br-config.sh
 	/lib/br-omr-enable.sh
 	/lib/br-smcroute-prefix.sh
