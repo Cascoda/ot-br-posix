@@ -86,6 +86,7 @@
 <script type="text/javascript" src="/luci-static/resources/html5-qrcode.min.js"></script>
 <script type="text/javascript" src="/luci-static/resources/handle_error.js"></script>
 <script type="text/javascript">//<![CDATA[
+	fetch('/cgi-bin/luci/admin/network/thread_add', {method: 'POST', ContentType: 'application/x-www-form-urlencoded', body: new URLSearchParams({token: '<%=token%>'})})
 	function QrCodeResult(res) {
 		const reThread = /v=(?<version>\d+)&&eui=(?<eui>[0-9a-fA-F]{16})&&cc=(?<cc>[a-zA-Z0-9]{4,12})/
 		const reKNX = /S(?<serial>[0-9A-F]{12})\+3ZEUI:(?<eui>[0-9a-fA-F]{16})\.P:(?<cc>[a-zA-Z0-9]{4,12})\.PA:(?<psk>[0-9A-HJ-NPR-Y]{6,32})/
