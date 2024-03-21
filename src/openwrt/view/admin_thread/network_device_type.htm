@@ -1,0 +1,75 @@
+<%+header%>
+
+<h2>Device Type</h2>
+
+<br />
+
+
+<div class="cbi-section-node">
+	<div class="table">
+		<!-- make router -->
+		<div class="tr cbi-rowstyle-2">
+			<div class="td col-7 left middle">
+				<big><strong>Convert device to Router</strong></big><br/><br/>
+				<p>
+					A Router device acts as a DHCP server on the LAN interface & a DHCP Client on the WAN interface.
+					A firewall blocks inbound connections on the WAN from directly connecting to LAN devices. This
+					configuration is most similar to a residential router device.
+				</p>
+			</div>
+			<div class="td middle cbi-section-actions">
+				<div>
+					<div></div>
+					<form action="<%=url('admin/network/thread_scan')%>" method="post">
+						<input type="hidden" name="token" value="<%=token%>" />
+						<input type="submit" class="cbi-button cbi-button-action important" title="<%:Convert device to Router%>" value="<%:Convert to Router%>"/>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- make switch -->
+		<div class="tr cbi-rowstyle-1">
+			<div class="td col-7 left middle">
+				<big><strong>Convert device to Switch</strong></big><br/><br/>
+				<p>
+					This configuration bridges together the WAN and LAN interfaces, akin to two-port Ethernet switch. The Hub
+					runs a DHCP client on both interfaces. An external router is required to access devices on the Thread network. 
+					There is no firewall, so the Thread network can be accessed by any connected device.
+				</p>
+			</div>
+			<div class="td middle cbi-section-actions">
+				<div>
+					<div></div>
+					<form action="<%=url('admin/network/thread_scan')%>" method="post">
+						<input type="hidden" name="token" value="<%=token%>" />
+						<input type="submit" class="cbi-button cbi-button-action important" title="<%:Convert device to Switch%>" value="<%:Convert to Switch%>"/>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<%+footer%>
+
+<!-- 
+
+json we are trying to post
+
+[
+	{"jsonrpc":"2.0",
+	"id":0,
+	"method":"call",
+	"params":
+		["<%=token%>",
+		"file",
+		"exec",
+		{"command":"/lib/make_router.sh"}
+		]
+	}
+]
+
+-->
+

@@ -56,5 +56,7 @@ install(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/add-route.py
     ${CMAKE_CURRENT_SOURCE_DIR}/remove-routes.py
     ${CMAKE_CURRENT_SOURCE_DIR}/view-routes.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/make_switch.sh
+    ${CMAKE_CURRENT_SOURCE_DIR}/make_router.sh
     DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
 )

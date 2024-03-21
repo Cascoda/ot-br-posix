@@ -98,6 +98,8 @@ define Package/openthread-br/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/add-route.py $(1)/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/remove-routes.py $(1)/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/view-routes.py $(1)/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/make_switch.sh $(1)/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/make_router.sh $(1)/lib
 
 
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin
