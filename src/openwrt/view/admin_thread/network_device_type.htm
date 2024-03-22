@@ -10,12 +10,23 @@
 		<!-- make router -->
 		<div class="tr cbi-rowstyle-2">
 			<div class="td col-7 left middle">
-				<big><strong>Convert device to Router</strong></big><br/><br/>
+				<big><strong>Convert Device to Router</strong></big><br/><br/>
 				<p>
-					A Router device acts as a DHCP server on the LAN interface & a DHCP Client on the WAN interface.
-					A firewall blocks inbound connections on the WAN from directly connecting to LAN devices. This
-					configuration is most similar to a residential router device.
+					This is the default configuration. This configuration is ideal when the Hub only needs to communicate to the Internet.
+
 				</p>
+				<p>
+					This configuration is similar to a residential router. Devices connected to the LAN & WAN ethernet ports exist within different networks.
+					Unsolicited inbound requests are blocked on the WAN interface. This Hub acts as a DHCP Server on the LAN interface
+					& a DHCP Client on the WAN interface.
+
+				</p>
+				<p>
+					The Thread network can be accessed through the LAN & WiFi interfaces.
+				</p>
+
+				<strong>This Hub will reboot after conversion!</strong>
+
 			</div>
 			<div class="td middle cbi-section-actions">
 				<div>
@@ -29,11 +40,29 @@
 		<!-- make switch -->
 		<div class="tr cbi-rowstyle-1">
 			<div class="td col-7 left middle">
-				<big><strong>Convert device to Switch</strong></big><br/><br/>
+				<big><strong>Convert Device to Switch</strong></big><br/><br/>
+				<p>
+					This configuration is ideal when the Hub needs to communicate with several devices on the local network. 
+					All IP Packets are mirrored across the WAN & LAN interfaces.  An external IP Router is required to 
+					assign addresses & route messages.
+				</p>
 				<p>
 					This configuration bridges together the WAN and LAN interfaces, akin to two-port Ethernet switch. The Hub
-					runs a DHCP client on both interfaces. An external router is required to access devices on the Thread network. 
-					There is no firewall, so the Thread network can be accessed by any connected device.
+					runs a DHCP client on both interfaces. An external router is required.  There is no firewall, so the Thread
+					network can be accessed by any connected device.
+				</p>
+				<p>
+					The Thread network can be accessed through the WAN, LAN & WiFi interfaces.
+				</p>
+
+				<p>
+					<strong>This Hub will reboot after conversion!</strong>
+				</p>
+
+				<p>
+					<strong>This Hub will no longer have a static IP address after the conversion! </strong>
+					To access this Web GUI, please connect using the hostname, or alternatively obtain the Hub's 
+					IP address from your router's administration GUI.
 				</p>
 			</div>
 			<div class="td middle cbi-section-actions">
@@ -49,53 +78,48 @@
 </div>
 
 <script type="text/javascript">
-	const router_btn = document.getElementById('router-btn');
-	
+	async function bindButtonAction(button, script_path, error_value) {	
+		button.addEventListener('click', async _ => {
+			const response = await fetch('/ubus/', {
+				method: 'post',
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: 
+					JSON.stringify([{
+						"jsonrpc":"2.0",
+						"id":0,
+						"method":"call",
+						"params":
+							[L.rpc.getSessionID(),
+							"file",
+							"exec",
+							{"command": script_path}]
+					}]),
+			});
 
-	router_btn.addEventListener('click', async _ => {
-		const response = await fetch('/ubus/', {
-			method: 'post',
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: 
-				JSON.stringify([{
-					"jsonrpc":"2.0",
-					"id":0,
-					"method":"call",
-					"params":
-						[L.rpc.getSessionID(),
-						"file",
-						"exec",
-						{"command":"/lib/make_router.sh"}]
-				}]),
-		
-	
-		});
-	});
+			const payload = await response.json();
+			const result = payload[0].result[1];
 
-	const switch_btn = document.getElementById('switch-btn');
-	switch_btn.addEventListener('click', async _ => {
-		const response = await fetch('/ubus/', {
-			method: 'post',
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: 
-				JSON.stringify([{
-					"jsonrpc":"2.0",
-					"id":0,
-					"method":"call",
-					"params":
-						[L.rpc.getSessionID(),
-						"file",
-						"exec",
-						{"command":"/lib/make_switch.sh"}]
-				}]),
-		
-	
+			console.log(result.stdout);
+
+			if (result.code == 1)
+			{
+				button.setAttribute("disabled", "");
+				button.setAttribute("class", "cbi-button cbi-button-action");
+				button.setAttribute("value", error_value);
+				return;
+			}
+			
+			window.location.href = "/";
 		});
-	});
+	}
+
+	var switch_btn = document.getElementById('switch-btn');
+	bindButtonAction(switch_btn, "/lib/make_switch.sh", "Already a Switch!");
+
+	var  router_btn = document.getElementById('router-btn');
+	bindButtonAction(router_btn, "/lib/make_router.sh", "Already a Router!");
 
 </script>
 
