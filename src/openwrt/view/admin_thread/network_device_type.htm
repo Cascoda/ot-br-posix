@@ -20,9 +20,7 @@
 			<div class="td middle cbi-section-actions">
 				<div>
 					<div></div>
-					<form action="<%=url('admin/network/thread_scan')%>" method="post">
-						<input type="hidden" name="token" value="<%=token%>" />
-						<input type="submit" class="cbi-button cbi-button-action important" title="<%:Convert device to Router%>" value="<%:Convert to Router%>"/>
+						<input type='button' id='router-btn' class="cbi-button cbi-button-action important" title="<%:Convert device to Router%>" value="<%:Convert to Router%>"/>
 					</form>
 				</div>
 			</div>
@@ -41,9 +39,7 @@
 			<div class="td middle cbi-section-actions">
 				<div>
 					<div></div>
-					<form action="<%=url('admin/network/thread_scan')%>" method="post">
-						<input type="hidden" name="token" value="<%=token%>" />
-						<input type="submit" class="cbi-button cbi-button-action important" title="<%:Convert device to Switch%>" value="<%:Convert to Switch%>"/>
+						<input type='button' id="switch-btn" class="cbi-button cbi-button-action important" title="<%:Convert device to Switch%>" value="<%:Convert to Switch%>"/>
 					</form>
 				</div>
 			</div>
@@ -52,24 +48,62 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+	const router_btn = document.getElementById('router-btn');
+	
+
+	router_btn.addEventListener('click', async _ => {
+		const response = await fetch('/ubus/', {
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: 
+				JSON.stringify([{
+					"jsonrpc":"2.0",
+					"id":0,
+					"method":"call",
+					"params":
+						[L.rpc.getSessionID(),
+						"file",
+						"exec",
+						{"command":"/lib/make_router.sh"}]
+				}]),
+		
+	
+		});
+	});
+
+	const switch_btn = document.getElementById('switch-btn');
+	switch_btn.addEventListener('click', async _ => {
+		const response = await fetch('/ubus/', {
+			method: 'post',
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: 
+				JSON.stringify([{
+					"jsonrpc":"2.0",
+					"id":0,
+					"method":"call",
+					"params":
+						[L.rpc.getSessionID(),
+						"file",
+						"exec",
+						{"command":"/lib/make_switch.sh"}]
+				}]),
+		
+	
+		});
+	});
+
+</script>
+
 <%+footer%>
 
 <!-- 
 
 json we are trying to post
-
-[
-	{"jsonrpc":"2.0",
-	"id":0,
-	"method":"call",
-	"params":
-		["<%=token%>",
-		"file",
-		"exec",
-		{"command":"/lib/make_router.sh"}
-		]
-	}
-]
 
 -->
 

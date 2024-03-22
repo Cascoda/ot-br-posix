@@ -112,6 +112,9 @@ define Package/openthread-br/install
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/handle_error.js $(1)/www/luci-static/resources
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/d3.v4.min.js $(1)/www/luci-static/resources
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/html5-qrcode.min.js $(1)/www/luci-static/resources
+
+	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+	$(INSTALL_DATA) $(LOCAL_SOURCE_DIR)/src/openwrt/luci-app-otbr.json $(1)/usr/share/rpcd/acl.d
 endef
 
 $(eval $(call BuildPackage,openthread-br))

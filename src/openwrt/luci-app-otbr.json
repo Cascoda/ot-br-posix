@@ -1,0 +1,16 @@
+{
+    "device_type_script": {
+        "description": "Allow the execution of device type scripts",
+        "write": {
+            "ubus": {
+                "file": [
+			"*"
+                ]
+            },
+	    "file": {
+			"/lib/make_router.sh": ["exec"],
+			"/lib/make_switch.sh": ["exec"]
+	    }
+        },
+    }
+}
