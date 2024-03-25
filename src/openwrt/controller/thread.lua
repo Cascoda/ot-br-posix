@@ -1,6 +1,9 @@
 module("luci.controller.admin.thread", package.seeall)
 
 function index()
+	page = entry({"admin", "network", "device_mode"}, template("admin_thread/network_device_type"), translate("Device Type"), 0)
+	page.leaf = true
+
 	page = entry({"admin", "thread"}, firstchild(), translate("Thread"), 60)
 
 	page = entry({"admin", "thread", "overview"}, alias("admin","network","thread"), translate("Overview"), 1)
@@ -14,8 +17,6 @@ function index()
 
 	page = entry({"admin", "thread", "docs"}, alias("admin","network","thread_docs"), translate("Documentation"), 4)
 	page.leaf = true
-
-	
 
 	page = entry({"admin", "network", "thread"}, template("admin_thread/thread_overview"), translate("Thread"), 16)
 	page.leaf = true

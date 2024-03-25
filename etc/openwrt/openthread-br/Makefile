@@ -98,6 +98,8 @@ define Package/openthread-br/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/add-route.py $(1)/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/remove-routes.py $(1)/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/view-routes.py $(1)/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/make_switch.sh $(1)/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/make_router.sh $(1)/lib
 
 
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin
@@ -110,6 +112,9 @@ define Package/openthread-br/install
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/handle_error.js $(1)/www/luci-static/resources
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/d3.v4.min.js $(1)/www/luci-static/resources
 	$(CP) $(LOCAL_SOURCE_DIR)/src/openwrt/html5-qrcode.min.js $(1)/www/luci-static/resources
+
+	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+	$(INSTALL_DATA) $(LOCAL_SOURCE_DIR)/src/openwrt/luci-app-otbr.json $(1)/usr/share/rpcd/acl.d
 endef
 
 $(eval $(call BuildPackage,openthread-br))
