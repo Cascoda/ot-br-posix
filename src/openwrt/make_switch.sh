@@ -16,6 +16,9 @@ uci set network.lan6=interface
 uci set network.lan6.proto=dhcpv6
 uci set network.lan6.device=br-lan
 
+service odhcpd disable
+service dnsmasq disable
+
 echo 'Applying changes... Hub will restart!'
 
 uci commit

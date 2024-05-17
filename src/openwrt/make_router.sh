@@ -13,6 +13,9 @@ uci set network.wan6.device=eth1
 
 uci delete network.lan6
 
+service odhcpd enable
+service dnsmasq enable
+
 echo 'Applying changes... Hub will restart!'
 
 uci commit
