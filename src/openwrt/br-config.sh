@@ -52,4 +52,4 @@ grep -qF cascoda /etc/sysupgrade.conf || echo "/.local/share/cascoda/" >> /etc/s
 
 # preserve IoT Router application program across software upgrades
 grep -qF kir_new /etc/sysupgrade.conf || echo "/usr/bin/knx_iot_router/kir_new/" >> /etc/sysupgrade.conf && echo "/kir_new/" >> /etc/sysupgrade.conf
-grep -qF knx_mqtt_proxy_creds /etc/sysupgrade.conf || echo "/knx_mqtt_proxy_creds" >> /etc/sysupgrade.conf
+grep -qF knx_mqtt_logger_creds /etc/sysupgrade.conf || echo "/knx_mqtt_logger_creds" >> /etc/sysupgrade.conf
