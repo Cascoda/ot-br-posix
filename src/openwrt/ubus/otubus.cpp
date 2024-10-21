@@ -42,6 +42,7 @@
 #include <openthread/commissioner.h>
 #include <openthread/thread.h>
 #include <openthread/thread_ftd.h>
+#include <openthread/srp_server.h>
 #include <openthread/platform/settings.h>
 
 #include "common/logging.hpp"
@@ -244,6 +245,7 @@ static const struct ubus_method otbrMethods[] = {
     {"macfilteraddr", &UbusServer::UbusMacfilterAddrHandler, 0, 0, nullptr, 0},
     {"joineradd", &UbusServer::UbusJoinerAddHandler, 0, 0, addJoinerPolicy, ARRAY_SIZE(addJoinerPolicy)},
     {"mgmtset", &UbusServer::UbusMgmtsetHandler, 0, 0, mgmtsetPolicy, ARRAY_SIZE(mgmtsetPolicy)},
+    {"srpreset", &UbusServer::UbusSrpResetHandler, 0, 0, nullptr, 0},
 };
 
 static struct ubus_object_type otbrObjType = {"otbr_prog", 0, otbrMethods, ARRAY_SIZE(otbrMethods)};
@@ -487,6 +489,16 @@ int UbusServer::UbusPskcHandler(struct ubus_context *     aContext,
 {
     return GetInstance().UbusGetInformation(aContext, aObj, aRequest, aMethod, aMsg, "pskc");
 }
+
+int UbusServer::UbusSrpResetHandler(struct ubus_context *     aContext,
+                                struct ubus_object *      aObj,
+                                struct ubus_request_data *aRequest,
+                                const char *              aMethod,
+                                struct blob_attr *        aMsg)
+{
+    return GetInstance().UbusSetInformation(aContext, aObj, aRequest, aMethod, aMsg, "srpreset");
+}
+
 
 int UbusServer::UbusSetPskcHandler(struct ubus_context *     aContext,
                                    struct ubus_object *      aObj,
@@ -1825,6 +1837,11 @@ int UbusServer::UbusSetInformation(struct ubus_context *     aContext,
     else if (!strcmp(aAction, "macfilterclear"))
     {
         // otLinkFilterClearAddresses(mController->GetInstance());
+    }
+    else if (!strcmp(aAction, "srpreset"))
+    {
+        otSrpServerSetEnabled(mController->GetInstance(), false);
+        otSrpServerSetEnabled(mController->GetInstance(), true);
     }
     else
     {

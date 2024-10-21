@@ -276,6 +276,11 @@ public:
                                const char *              aMethod,
                                struct blob_attr *        aMsg);
 
+    static int UbusSrpResetHandler(struct ubus_context *     aContext,
+                                struct ubus_object *      aObj,
+                                struct ubus_request_data *aRequest,
+                                const char *              aMethod,
+                                struct blob_attr *        aMsg);
     /**
      * This method handle ubus set pskc function request.
      *

@@ -69,6 +69,9 @@ function index()
 	page = entry({"admin", "network", "thread_stop"}, post("thread_stop"), nil)
 	page.leaf = true
 
+	page = entry({"admin", "network", "thread_srp_reset"}, post("thread_srp_reset"), nil)
+	page.leaf = true
+
 	page = entry({"admin", "network", "thread_docs"}, template("admin_thread/thread_docs"), nil)
 	page.leaf = true
 end
@@ -264,6 +267,24 @@ function thread_join()
 
 	local stat, dsp = pcall(require, "luci.dispatcher")
 	luci.http.redirect(stat and dsp.build_url("admin", "network", "thread_join"))
+end
+
+function thread_srp_reset()
+	local ubus = require "ubus"
+	local tpl = require "luci.template"
+	local http = require "luci.http"
+
+	local conn = ubus.connect()
+
+	if not conn then
+		error("Failed to connect to ubusd")
+	end
+
+	result = conn:call("otbr", "srpreset", {})
+	vError = result.Error
+
+	local stat, dsp = pcall(require, "luci.dispatcher")
+	luci.http.redirect(stat and dsp.build_url("admin", "network", "thread") .. "?error=" .. vError)
 end
 
 function thread_state()

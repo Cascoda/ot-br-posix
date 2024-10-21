@@ -105,7 +105,11 @@ L.require('ui').then(function(ui_res){
 							'<form class="inline" action="<%=url('admin/network/thread_view')%>" method="post">' +
 								'<input type="hidden" name="token" value="<%=token%>" />' +
 								'<input type="submit" class="cbi-button cbi-button-add" title="<%:View this network%>" value="<%:View%>"/>' +
-							'</form>' ;
+							'</form>' + 
+							'<form class="inline" action="<%=url('admin/network/thread_srp_reset')%>" method="post">' +
+								'<input type="hidden" name="token" value="<%=token%>" />' +
+								'<input type="submit" class="cbi-button cbi-button-neutral" title="<%:Clear MDNS Cache%>" value="<%:Reset MDNS%>" />' +
+							'</form>';
 					}
 					else
 					{
