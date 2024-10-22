@@ -76,8 +76,11 @@
 	<div class="cbi-value">
 		<input type="text" name="qr_text" id="qr_text" placeholder="Paste QR Code contents here">
 	</div>
+	<div class="cbi-value-description">
+		The KNX QR Code uniquely identifies a device for network & application purposes. It can be formatted in the KNX ISO format 41S&lt;knx serial number&gt;+3ZEUI:&lt;Thread EUI64&gt;.P:&lt;Thread password&gt;.PA:&lt;KNX password&gt;. There is also a legacy  format for KNX-IoT which only contains KNX data: KNX:S:&lt;SERNO&gt;;P:&lt;PASSWORD&gt;.
+	</div>
 	<div class="cbi-page-actions right">
-		<input class="cbi-button cbi-button-neutral" style="float:left;" type="button" onclick="window.location.href='thread_view'" value="<%:Back to View%>" />
+		<input class="cbi-button cbi-button-neutral" style="float:left;" type="button" onclick="window.location.href='view'" value="<%:Back to View%>" />
 		<button class="cbi-button cbi-button-add important" id="qr_submit" onclick="QrCodeResult(document.getElementById('qr_text').value)"><%:Submit%></button>
 	</div>
 </div>
@@ -100,7 +103,7 @@
 			document.querySelector('form#addForm>div>div>div>input[name="pskd"]').value = m.groups.cc;
 			document.querySelector('form#addForm>div>div>div>input[name="eui64"]').value = m.groups.eui;
 		} else {
-			console.log("Not a valid Thread QR Code!");
+			alert("Invalid QR Code!");
 			return;
 		}
 		document.getElementById('addForm').submit()
